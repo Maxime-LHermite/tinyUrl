@@ -1,0 +1,34 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "alwaysStrict": true,
+        "strictNullChecks": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": true,
+        "strictPropertyInitialization": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "useUnknownInCatchVariables": true,
+
+        "noFallthroughCasesInSwitch": true,
+        "exactOptionalPropertyTypes": false,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+
+        "module": "commonjs",
+
+        "rootDir": "src",
+        "outDir": "dist",
+
+        "removeComments": true,
+        "jsx": "react",
+
+        "target": "es6",
+        "sourceMap": true,
+
+        "esModuleInterop": true,
+        "baseUrl": "src/"
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "**/*.spec.ts"]
+}

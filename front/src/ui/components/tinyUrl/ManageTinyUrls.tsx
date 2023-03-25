@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { TinyUrlSlice } from '../../../redux/TinyUrlSlice';
 import { Divider } from '../Divider';
 import { Theme } from '../../../models/ThemeModel';
-import * as url from 'url';
 
 /**
  * Component props

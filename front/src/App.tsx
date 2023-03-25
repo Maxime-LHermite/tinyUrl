@@ -10,7 +10,6 @@ import { Fonts } from './assets/fonts/Fonts';
 import { AppRoutes } from './Routes';
 import { CustomBrowserRouter } from './ui/components/CustomBrowserRouter';
 import { Authentication } from './ui/components/Authentication';
-import { LoaderPage } from './ui/pages/LoaderPage';
 
 export const App: React.FC = () => {
     useWindowDimensionsChange();

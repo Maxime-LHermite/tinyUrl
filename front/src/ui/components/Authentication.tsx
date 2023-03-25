@@ -1,7 +1,4 @@
-import React, { createContext, PropsWithChildren, useEffect } from 'react';
-import { useStyles } from '../../hooks/useTheme';
-import { css } from '@emotion/css';
-import { AuthenticationModel } from '../../models/AuthenticationModel';
+import React, { PropsWithChildren, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/ReduxTypes';
 import { LoginPage } from '../pages/LoginPage';
 import { AuthenticationSlice } from '../../redux/AuthenticationSlice';

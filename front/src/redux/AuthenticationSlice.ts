@@ -2,7 +2,7 @@ import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { call, put, SagaGenerator, takeEvery, takeLatest } from 'typed-redux-saga';
 import { AuthenticationModel } from '../models/AuthenticationModel';
 import { UserModel } from '../models/UserModel';
-import { AuthenticationUseCase, AuthenticationUseCaseSpec } from '../domain/authentication/AuthenticationUseCase';
+import { AuthenticationUseCaseSpec } from '../domain/authentication/AuthenticationUseCase';
 
 /////////////////////////////////////////////
 /////////////////// SLICE ///////////////////

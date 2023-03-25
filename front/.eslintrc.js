@@ -26,7 +26,6 @@ module.exports = {
     overrides: [
         {
             files: ['./**/*.ts'],
-            excludedFiles: ['./**/*.spec.ts'],
             rules: {
                 '@jambit/typed-redux-saga/use-typed-effects': 'error',
                 '@jambit/typed-redux-saga/delegate-effects': 'error',

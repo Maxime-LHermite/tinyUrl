@@ -6,7 +6,7 @@ import { Logger } from './Logger';
 
 export const localesNames = {
     en: 'English',
-    fr: 'Français (French)',
+    fr: 'Français',
 };
 
 export const supportedLocales = Object.keys(localesNames) as (keyof typeof localesNames)[];

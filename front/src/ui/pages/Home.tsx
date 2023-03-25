@@ -1,12 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { useStyles } from '../../hooks/useTheme';
-import { css, cx } from '@emotion/css';
-import { IntInput } from '../components/input/NumberInput';
+import { css } from '@emotion/css';
+import { TinyUrl } from '../components/tinyUrl/TinyUrl';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
-import { generateAppPath } from '../../Routes';
-import Result, { Ok, ResultType } from '../../utils/Result';
+import { useAppDispatch } from '../../redux/ReduxTypes';
+import { AuthenticationSlice } from '../../redux/AuthenticationSlice';
 import { Theme } from '../../models/ThemeModel';
+import { localesNames } from '../../I18n';
 
 /**
  * Home
@@ -15,96 +15,43 @@ import { Theme } from '../../models/ThemeModel';
  */
 export const Home: React.FC = () => {
     const styles = useStyles(makeStyles);
-    const { t } = useTranslation();
-    const navigate = useNavigate();
-    const [bombs, setBombs] = useState<ResultType<number, string>>(Ok(10));
-    const [width, setWidth] = useState<ResultType<number, string>>(Ok(10));
-    const [height, setHeight] = useState<ResultType<number, string>>(Ok(10));
-
-    const play = useCallback(
-        (bombs: ResultType<number, string>, width: ResultType<number, string>, height: ResultType<number, string>) => {
-            const result = Result.andThen(
-                (bombValue) =>
-                    Result.andThen(
-                        (widthValue) =>
-                            Result.map(
-                                (heightValue) => ({ bombs: bombValue.toString(), width: widthValue.toString(), height: heightValue.toString() }),
-                                height
-                            ),
-                        width
-                    ),
-                bombs
-            );
-            switch (result.status) {
-                case 'Ok': {
-                    const path = generateAppPath('/game/:width/:height/:bombs', result.data);
-                    navigate(path);
-                    break;
-                }
-                case 'Err':
-                    break;
-            }
-        },
-        [navigate]
-    );
+    const { t, i18n } = useTranslation();
+    const dispatch = useAppDispatch();
 
     return (
-        <main className={cx(styles.container)}>
-            <label className={styles.label} htmlFor='bombs'>
-                {t('bombs')}
-            </label>
-            <IntInput
-                onInputChanged={setBombs}
-                initialValue={bombs.status === 'Ok' ? bombs.data : undefined}
-                min={1}
-                max={width.status === 'Ok' && height.status === 'Ok' ? (width.data * height.data) / 2 : undefined}
-                inputProps={{ id: 'bombs', className: bombs.status === 'Err' ? styles.error : undefined }}
-            />
-            <label className={styles.label} htmlFor='width'>
-                {t('width')}
-            </label>
-            <IntInput
-                onInputChanged={setWidth}
-                initialValue={width.status === 'Ok' ? width.data : undefined}
-                min={2}
-                max={100}
-                inputProps={{ id: 'width', className: width.status === 'Err' ? styles.error : undefined }}
-            />
-            <label className={styles.label} htmlFor='height'>
-                {t('height')}
-            </label>
-            <IntInput
-                onInputChanged={setHeight}
-                initialValue={height.status === 'Ok' ? height.data : undefined}
-                min={2}
-                max={100}
-                inputProps={{ id: 'height', className: height.status === 'Err' ? styles.error : undefined }}
-            />
-            <button className={styles.button} onClick={() => play(bombs, width, height)}>
-                {t('play')}
-            </button>
+        <main className={styles.container}>
+            <TinyUrl style={styles.content} />
+            <div className={styles.footer}>
+                <button disabled={i18n.language === 'fr'} onClick={() => i18n.changeLanguage('fr')}>
+                    {localesNames.fr}
+                </button>
+                <button disabled={i18n.language === 'en'} onClick={() => i18n.changeLanguage('en')} className={styles.footerItem}>
+                    {localesNames.en}
+                </button>
+                <button onClick={() => dispatch(AuthenticationSlice.actions.logout())}>{t('auth.logout')}</button>
+            </div>
         </main>
     );
 };
 
 const makeStyles = (theme: Theme) => ({
     container: css`
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+    `,
+    content: css`
+        flex-grow: 2;
+    `,
+    footer: css`
+        height: 10%;
+        display: flex;
+        flex-direction: row;
         align-items: center;
+        justify-content: center;
     `,
-    error: css`
-        border-color: red;
-    `,
-    label: css`
-        margin: ${theme.spacing.XS}px;
-    `,
-    button: css`
-        margin: ${theme.spacing.M}px;
-        width: 10%;
-        height: ${theme.spacing.M}px;
+    footerItem: css`
+        margin-right: ${theme.spacing.M}px;
     `,
 });

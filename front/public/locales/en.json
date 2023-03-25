@@ -1,4 +1,18 @@
 {
-	"language": "English",
-	"title": "Minesweeper"
+    "language": "English",
+    "title": "Tiny Url",
+    "auth": {
+        "username": "Username",
+        "password": "Password",
+        "login": "Log in",
+        "logout": "Log out",
+        "register": "Register"
+    },
+    "tinyUrl": {
+        "url": "URL to shorten",
+        "urlName": "Custom name (Optional)",
+        "create": "Create",
+        "copy": "Copy URL",
+        "delete": "Delete URL"
+    }
 }

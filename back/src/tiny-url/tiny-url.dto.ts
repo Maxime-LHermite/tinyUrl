@@ -1,12 +1,13 @@
-import { IsNotEmpty, IsUrl, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsUrl, IsOptional, ValidateIf, IsAlphanumeric } from 'class-validator';
 
 export class CreateTinyUrlDto {
     @IsNotEmpty()
-    @IsUrl()
+    @IsUrl({ require_protocol: true })
     url: string;
 
     @IsNotEmpty()
     @IsOptional()
+    @IsAlphanumeric()
     urlName: string | undefined;
 }
 
@@ -21,5 +22,6 @@ export class UpdateTinyUrlDto {
 
     @IsNotEmpty()
     @IsOptional()
+    @IsAlphanumeric()
     urlName: string | undefined;
 }

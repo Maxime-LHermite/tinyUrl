@@ -24,16 +24,20 @@ import { Request } from 'express';
 export class TinyUrlController {
     constructor(private readonly tinyUrlService: TinyUrlService) {}
 
+    private getRootUrl(req: Request) {
+        return `${req.protocol}://${req.get('Host')}`;
+    }
+
     @UseGuards(AuthGuard('jwt'))
     @Get()
-    getUrls(@Req() req: { user: JwtUserPayload }): Promise<Omit<TinyUrl, 'user'>[]> {
-        return this.tinyUrlService.listUrls(req.user.userId);
+    getUrls(@Req() req: { user: JwtUserPayload } & Request): Promise<Omit<TinyUrl & { tinyUrl: string }, 'user'>[]> {
+        return this.tinyUrlService.listUrls(this.getRootUrl(req), req.user.userId);
     }
 
     @UseGuards(AuthGuard('jwt'))
     @Get(':id')
     async generateUrl(@Req() req: { user: JwtUserPayload } & Request, @Param('id') urlId: string): Promise<string> {
-        const url = await this.tinyUrlService.generateTinyUrl(`${req.protocol}://${req.get('Host')}`, req.user.userId, urlId);
+        const url = await this.tinyUrlService.generateTinyUrl(this.getRootUrl(req), req.user.userId, urlId);
         if (url) {
             return url;
         }

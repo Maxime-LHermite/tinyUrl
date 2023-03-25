@@ -1,4 +1,18 @@
 {
-	"language": "Français",
-	"title": "Démineur"
+    "language": "Français",
+    "title": "Tiny Url",
+    "auth": {
+        "username": "Nom d'utilisateur",
+        "password": "mot de passe",
+        "login": "Connexion",
+        "logout": "Déconnexion",
+        "register": "Inscription"
+    },
+    "tinyUrl": {
+        "url": "URL à réduire",
+        "urlName": "Nom perso (Optionel)",
+        "create": "Créer",
+        "copy": "Copier",
+        "delete": "Supprimer"
+    }
 }

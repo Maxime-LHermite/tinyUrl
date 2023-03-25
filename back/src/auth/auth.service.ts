@@ -17,11 +17,13 @@ export class AuthService {
         }
         return null;
     }
-    async login(username: string): Promise<{ access_token: string } | null> {
+    async login(username: string): Promise<{ access_token: string; username: string; userId: string } | null> {
         const userId = await this.userService.getUserId(username);
         if (userId) {
             return {
                 access_token: this.jwtService.sign({ username: username, id: userId }),
+                username,
+                userId,
             };
         } else {
             return null;

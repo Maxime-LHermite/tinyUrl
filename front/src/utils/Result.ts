@@ -1,6 +1,6 @@
 import Maybe, { Just, MaybeType, Nothing } from './Maybe';
 
-export type ResultType<D, E> = { status: 'Ok'; data: D } | { status: 'Err'; error: E };
+export type ResultType<D, E = undefined> = { status: 'Ok'; data: D } | { status: 'Err'; error: E };
 
 export const Ok = <D, E>(data: D): ResultType<D, E> => ({ status: 'Ok', data });
 export const Err = <D, E>(error: E): ResultType<D, E> => ({ status: 'Err', error });

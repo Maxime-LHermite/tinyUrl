@@ -1,6 +1,7 @@
-import { DecoderFunction } from 'typescript-json-decoder';
+import { DecoderFunction, nullable, optional, union } from 'typescript-json-decoder';
 import { AppError } from './Basics';
 import { Err, Ok, ResultType } from './Result';
+import { Decoder, decodeType } from 'typescript-json-decoder/dist/types';
 
 export type JsonDecoderError = AppError<'JsonDecoderError'>;
 
@@ -21,3 +22,13 @@ export function jsonDecode<D>(decoder: DecoderFunction<D>, value: unknown): Resu
         }
     }
 }
+
+export const nullOrUndefined =
+    <T extends Decoder<unknown>>(decoder: T): DecoderFunction<decodeType<T> | undefined> =>
+    (data: unknown) => {
+        const value = union(nullable(decoder), optional(decoder))(data);
+        if (value === null || value === undefined) {
+            return undefined;
+        }
+        return value;
+    };

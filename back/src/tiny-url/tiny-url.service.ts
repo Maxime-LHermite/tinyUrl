@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TinyUrl } from './tiny-url.entity';
@@ -8,24 +8,25 @@ import { CreateTinyUrlDto, UpdateTinyUrlDto } from './tiny-url.dto';
 export class TinyUrlService {
     constructor(@InjectRepository(TinyUrl) private readonly tinyUrlRepository: Repository<TinyUrl>) {}
 
-    listUrls(userId: string) {
-        return this.tinyUrlRepository.find({
+    async listUrls(rootUrl: string, userId: string) {
+        const value = await this.tinyUrlRepository.find({
             where: {
                 user: {
                     id: userId,
                 },
             },
         });
+
+        return value.map((tinyUrl) => ({
+            ...tinyUrl,
+            tinyUrl: this.getTinyUrl(rootUrl, tinyUrl),
+        }));
     }
 
     async generateTinyUrl(rootUrl: string, userId: string, urlId: string): Promise<string | null> {
         const url = await this.tinyUrlRepository.findOneBy({ id: urlId, user: { id: userId } });
         if (url) {
-            if (url.urlName) {
-                return `${rootUrl}/r/${url.urlName}`;
-            } else {
-                return `${rootUrl}/u/${url.id}`;
-            }
+            return this.getTinyUrl(rootUrl, url);
         }
         return null;
     }
@@ -51,4 +52,12 @@ export class TinyUrlService {
     deleteUrl(userId: string, urlId: string) {
         return this.tinyUrlRepository.delete({ id: urlId, user: { id: userId } });
     }
+
+    private getTinyUrl = (rootUrl: string, url: TinyUrl): string => {
+        if (url.urlName) {
+            return `${rootUrl}/r/${url.urlName}`;
+        } else {
+            return `${rootUrl}/u/${url.id}`;
+        }
+    };
 }

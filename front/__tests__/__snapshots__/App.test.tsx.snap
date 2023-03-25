@@ -5,12 +5,16 @@ exports[`App render 1`] = `
   className="Translation"
 >
   <div
-    className="CustomBrowserRouter"
+    className="Authentication"
   >
     <div
-      className="AppRoutes"
+      className="CustomBrowserRouter"
     >
-      Router content
+      <div
+        className="AppRoutes"
+      >
+        Router content
+      </div>
     </div>
   </div>
 </div>
